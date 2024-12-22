@@ -1,9 +1,11 @@
 "use client";
 import Upload from "@/components/Upload";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 const UploadForm = () => {
   const [isUploading, setIsUploading] = useState(false);
+  const router = useRouter();
   async function upload(e) {
     e.preventDefault();
     const files = e.target.files;
@@ -12,7 +14,8 @@ const UploadForm = () => {
       setIsUploading(true);
       const res = await axios.postForm("/api/upload", { file });
       setIsUploading(false);
-      console.log(res.data);
+      const newName = res.data.newName;
+      router.push('/' + newName);
     }
   }
   return (
