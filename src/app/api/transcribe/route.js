@@ -27,7 +27,6 @@ async function createJob(fileName){
 
     const transcribeClient = getClient();
     const transciptionCommand = getTranscriptionCommand(fileName);
-    console.log("made transcription command");
     return transcribeClient.send(transciptionCommand);
 }
 
@@ -36,11 +35,8 @@ async function getJob(fileName){
     const transcribeClient = getClient();
     let jobStatusResult = null;
     try{
-        console.log("in try block");
         jobStatusResult = await transcribeClient.send(jobStatusCommand);
-        console.log("got job status result");
     }catch(err){
-        console.log("in catch block");
     }
     if(jobStatusResult){
         return jobStatusResult;
@@ -102,11 +98,9 @@ export async function GET(req){
     const existingJob = await getJob(fileName);
 
     if(existingJob){
-        console.log("job exists");
         return Response.json(existingJob.TranscriptionJob.TranscriptionJobStatus);
     }
     if(!existingJob){
-        console.log("job does not exist");
         const newJob = await createJob(fileName)
         return Response.json({
             'status' : newJob.TranscriptionJob.TranscriptionJobStatus

@@ -3,7 +3,7 @@ function ConvertTimeToISO(time){
     return d.toISOString().substring(11, 23).replace('.', ',');
 }
 
-export default ConvertItemsToSRT => (items) => {
+const ConvertItemsToSRT = (items) => {
     let srt = '';
     let i = 1;
     items.forEach((item) => {
@@ -15,4 +15,8 @@ export default ConvertItemsToSRT => (items) => {
     srt += '\n';
     i++;
     });
+
+    return srt;
 }
+
+export default ConvertItemsToSRT;

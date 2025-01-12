@@ -1,4 +1,8 @@
 export default function ClearTranscriptionItems(transcription, setTranscripitionItems) {
+  if (!transcription || !transcription.results || !Array.isArray(transcription.results.items)) {
+    console.warn('Invalid transcription object passed.');
+    return;
+}
         transcription.results?.items.forEach((item, key) => {
           if (!item.start_time) {
             const prev = transcription.results?.items[key - 1];

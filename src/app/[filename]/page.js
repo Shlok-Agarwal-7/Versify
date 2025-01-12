@@ -21,7 +21,7 @@ export default function FilePage({ params }) {
       setIsFetching(false);
       const status = response.data?.status;
       const transcription = response.data?.transcription;
-      if (status === "In-Progress") {
+      if (status === "IN-PROGRESS") {
         setIsTranscribing(true);
         setTimeout(getTranscription, 3000);
       } else {
