@@ -31,23 +31,22 @@ async function createJob(fileName){
 }
 
 async function getJob(fileName){
-    const jobStatusCommand = new GetTranscriptionJobCommand({TranscriptionJobName : fileName});
     const transcribeClient = getClient();
     let jobStatusResult = null;
     try{
+        const jobStatusCommand = new GetTranscriptionJobCommand(
+            {TranscriptionJobName : fileName}
+        );
         jobStatusResult = await transcribeClient.send(jobStatusCommand);
-    }catch(err){
-    }
-    if(jobStatusResult){
+    }catch(err){}
         return jobStatusResult;
-    }
 }
 
 async function streamToString(stream){
     const chunks = [];
     return new Promise((resolve,reject) => {
         stream.on('data', (chunk) => {
-            chunks.push(chunk);
+            chunks.push(Buffer.from(chunk));
         })
         stream.on('end', () => {
             resolve(Buffer.concat(chunks).toString('utf-8'));
@@ -98,7 +97,9 @@ export async function GET(req){
     const existingJob = await getJob(fileName);
 
     if(existingJob){
-        return Response.json(existingJob.TranscriptionJob.TranscriptionJobStatus);
+            return Response.json({
+                status: existingJob.TranscriptionJob.TranscriptionJobStatus,
+            });
     }
     if(!existingJob){
         const newJob = await createJob(fileName)
@@ -107,5 +108,5 @@ export async function GET(req){
         })
     }
     
-    return Response.json('ok');
+    return Response.json(null);
 }

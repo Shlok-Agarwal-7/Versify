@@ -21,12 +21,12 @@ export default function FilePage({ params }) {
       setIsFetching(false);
       const status = response.data?.status;
       const transcription = response.data?.transcription;
-      if (status === "IN-PROGRESS") {
+      if (status === "IN_PROGRESS"){
         setIsTranscribing(true);
         setTimeout(getTranscription, 3000);
       } else {
         setIsTranscribing(false);
-        ClearTranscriptionItems(transcription, setTranscripitionItems);
+        setTranscripitionItems(ClearTranscriptionItems(transcription?.results.items));
       }
     });
   }
@@ -36,7 +36,7 @@ export default function FilePage({ params }) {
   }
 
   if (isTranscribing) {
-    return <div>Transcribing...</div>;
+    return <div><p>Transcribing...</p></div>;
   }
 
   return (

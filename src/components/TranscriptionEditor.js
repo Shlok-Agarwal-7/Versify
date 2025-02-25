@@ -16,7 +16,7 @@ const  TranscriptionEditor = ({transcriptionItems,setTranscripitionItems}) => {
           <div>End Time</div>
           <div>Content</div>
         </div>
-        {transcriptionItems.length > 0 &&
+        {transcriptionItems?.length > 0 &&
           transcriptionItems.map((item, index) => (
             <TranscriptionItem item={item}
              key={index}
